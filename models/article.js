@@ -1,7 +1,8 @@
 let express = require("express");
-
 var mongoose = require("mongoose");
-mongoose.Promise = global.Promise;mongoose.connect('mongodb+srv://admin:Omegapoint@cluster0-jtzfp.mongodb.net/BosseEvelyn?retryWrites=true');
+
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb+srv://admin:Omegapoint@cluster0-jtzfp.mongodb.net/BosseEvelyn?retryWrites=true');
 
 let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
