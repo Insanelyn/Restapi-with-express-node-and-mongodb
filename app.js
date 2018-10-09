@@ -1,3 +1,4 @@
+"use strict";
 let express = require("express");
 import bodyParser from 'body-parser';
 import articleSchema from './models/article'
