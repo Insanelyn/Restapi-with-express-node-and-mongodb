@@ -1,3 +1,4 @@
+"use strict";
 let json = require("../articles");
 import bodyParser from 'body-parser';
 let Article = require("../models/article.js");
@@ -5,13 +6,18 @@ let mongoose = require('mongoose');
 let express = require("express");
 let db = require("../models/article.js");
 
-
-
 class ArticleController {
+  constructor(product_name, id, price, Category) {
+    this.id = id;
+    this.product_name = product_name;
+    this.price = price;
+    this.Category = Category;
+  }
   //Funktion för att hämta alla artiklar som är lagrade i databasen
-getArticles(req, res) {
+  getArticles(req, res) {
+    let id = req.params.id;
     let array;
-    Article.find()
+    Article.find().sort({id})
     .then(articles => {
       array = articles;
       res.status(200).json(articles)
@@ -21,10 +27,15 @@ getArticles(req, res) {
   //Funktion för att hämta en artikel som är lagrad i databasen
   getArticleById(req, res) {
     const id = req.params.id;
-    let findSingleArticle;
     Article.find({id})
     .then(article => {
-      findSingleArticle = article;
+      res.status(200).json(article)
+    }).catch(err => console.log('Errormessage: ', err))
+  }
+  getArticleByCategory(req, res) {
+    let Category = req.params.Category;
+    Article.find({Category})
+    .then(article => {
       res.status(200).json(article)
     }).catch(err => console.log('Errormessage: ', err))
   }
@@ -41,6 +52,7 @@ getArticles(req, res) {
       .save()
       .then(article => console.log(article))
       .catch(error => console.log('errormessage: ', error))
+
     });
   }
   //Funktion för att posta nya artiklar till databasen
@@ -84,18 +96,18 @@ getArticles(req, res) {
         message: 'Category is required'
       });
     }else {
-    article.save()
-    .then(item => {
-      res.send({
-        success: 'true',
-        message: 'Article added successfully',
-        article
+      article.save()
+      .then(item => {
+        res.send({
+          success: 'true',
+          message: 'Article added successfully',
+          article
+        });
+      })
+      .catch(err => {
+        res.status(400).send("unable to save to database");
       });
-    })
-    .catch(err => {
-      res.status(400).send("unable to save to database");
-    });
-  }
+    }
   };
 }
 
