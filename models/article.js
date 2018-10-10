@@ -9,7 +9,6 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
 });
 
-
 let articleSchema = new mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
   id: Number,
@@ -17,5 +16,7 @@ let articleSchema = new mongoose.Schema({
   price: String,
   Category: String
 });
+
+
 
 module.exports = mongoose.model('Article',articleSchema)
