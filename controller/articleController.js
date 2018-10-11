@@ -16,11 +16,19 @@ class ArticleController {
 
   //Funktion för att hämta alla artiklar som är lagrade i databasen
   getArticles(req, res) {
+    let limit = Number(req.query.limit);
+    let skip = Number(req.query.skip);
+    let Category = req.query.Category;
     let id = req.params._id;
-    let array;
-    Article.find().sort({id})
+    let print;
+    if(Category){
+      print = {'Category': Category}
+    }else {
+      print = Article.find()
+    }
+        console.log("hej", Category)
+    Article.find().skip(skip).limit(limit).sort(id).where(print)
     .then(articles => {
-      array = articles;
       res.status(200).json(articles)
     })
     .catch(err => console.log('Errormessage: ', err))
@@ -33,13 +41,7 @@ class ArticleController {
       res.status(200).json(article)
     }).catch(err => console.log('Errormessage: ', err))
   }
-  getArticleByCategory(req, res) {
-    let Category = String(req.params.Category);
-    Article.find({Category})
-    .then(article => {
-      res.status(200).json(article)
-    }).catch(err => console.log('Errormessage: ', err))
-  }
+
   //Funktion för att posta nya artiklar till databasen
   postArticle(req, res) {
     let article = new Article({
