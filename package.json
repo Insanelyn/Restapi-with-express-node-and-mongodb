@@ -7,16 +7,13 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon app.js --exec babel-node"
   },
-  "author": "Evelyn",
+  "author": "Evelyn Jepsen",
   "license": "ISC",
   "dependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
-    "circular-json": "^0.5.7",
     "express": "^4.16.3",
-    "express-paginate": "^1.0.0",
     "mongoose": "^5.3.1",
-    "mongoose-find-and-filter": "^1.0.0",
     "nodemon": "^1.18.4"
   }
 }
