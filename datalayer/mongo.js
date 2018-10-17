@@ -3,7 +3,6 @@ let mongoose = require("mongoose");
 let articleSchema = require('mongoose').model('article').schema;
 
 class mongo {
-
   constructor(){
     this._loadSchema();
     this.connect();
@@ -22,5 +21,6 @@ class mongo {
     console.log("Connected to mongodb")
   }
 }
+
 const database = new mongo();
 export default database;
