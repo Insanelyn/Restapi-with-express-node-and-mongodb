@@ -1,18 +1,17 @@
 "use strict";
-let express = require("express");
+import ArticleRouter from  './routes/articleRouter.js'
+import database from './datalayer/mongo.js'
 import bodyParser from 'body-parser';
-import router from './routes/articles.js';
-import database from './DL/database.js'
-
+let express = require("express");
 const app = express();
-
-database.connect();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(router);
+app.use('/articles/', ArticleRouter);
+
+database.connect();
 
 const port = 5000;
 app.listen(port, () => {
   console.log(`server running on port ${port}`)
-})
+});

@@ -1,13 +1,14 @@
 "use strict";
 let express = require("express");
 let mongoose = require("mongoose");
-//Schema som sätter formen för data till databasen
-let articleSchema = new mongoose.Schema({
+let Schema = mongoose.Schema;
+
+let articleSchema = new Schema({
   _id: mongoose.Schema.Types.ObjectId,
   id: Number,
   product_name: String,
   price: String,
   Category: String
 });
-//Exporterar articleSchema så att datbase.js kan nå det
-module.exports = mongoose.model('Article',articleSchema)
+
+module.exports = mongoose.model('article', articleSchema)
