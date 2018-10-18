@@ -1,7 +1,5 @@
 "use strict";
 // let json = require("../articles");
-let Article = require("../schemas/article.js");
-let mongoose = require('mongoose');
 let express = require('express');
 import mongo from '../datalayer/mongo.js'
 const articleRouter = express.Router();

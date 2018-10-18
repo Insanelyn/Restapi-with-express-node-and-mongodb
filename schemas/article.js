@@ -1,5 +1,4 @@
 "use strict";
-let express = require("express");
 let mongoose = require("mongoose");
 let Schema = mongoose.Schema;
 
