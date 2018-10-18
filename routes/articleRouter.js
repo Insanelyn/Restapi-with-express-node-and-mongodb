@@ -6,8 +6,6 @@ let express = require('express');
 import mongo from '../datalayer/mongo.js'
 const articleRouter = express.Router();
 
-
-
 articleRouter.route('/')
 .get((req, res) => {
   mongo.getArticles(req, res);
@@ -18,53 +16,18 @@ articleRouter.route('/')
 
 articleRouter.route('/:articleId')
 .get((req, res) => {
-  Article.findById(req.params.articleId, (err, article)=>{
-    res.json(article)
-  })
-  // const id = req.params.articleId;
-  // Article.findById(id)
-  // .then(article => {
-  //   if(id===true) {
-  //     res.status(200).json(article)
-  //   }else{
-  //     return res.status(404).send({
-  //       success: 'false',
-  //       message: 'Article not found'
-  //     });
-  //   }}).catch(err => console.log('Errormessage: ', err))
+  mongo.getArticleById(req, res);
 })
 .delete((req,res)=>{
-  Article.findById(req.params.articleId, (err, article) => {
-    article.remove(err => {
-      if(err){
-        res.status(500).send(err)
-      }
-      else{
-        res.status(204).send('removed')
-      }
-    })
-  })
+  mongo.deleteArticle(req, res);
 })
 .patch((req,res)=>{
-     Article.findById(req.params.articleId, (err, article) => {
-         if(req.body._id){
-             delete req.body._id;
-         }
-         for( let b in req.body ){
-             article[b] = req.body[b];
-         }
-         article.save();
-         res.json(article);
-     })
- })
-.put((req, res) => {
-   Article.findById(req.params.articleId, (err, article) => {
-          article.product_name = req.body.product_name;
-          article.price = req.body.price;
-          article.save()
-          res.json(article)
- })
+  mongo.patchArticle(req, res);
 })
+.put((req, res) => {
+  mongo.putArticle(req, res);
+})
+
 export default articleRouter;
 
 // //Funktion för att hämta alla artiklar som finns i json arrayen
