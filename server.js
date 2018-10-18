@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/articles/', ArticleRouter);
 
-database.connect();
+database._connect();
 
 const port = 5000;
 app.listen(port, () => {

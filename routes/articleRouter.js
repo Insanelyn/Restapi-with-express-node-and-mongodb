@@ -3,30 +3,17 @@
 let Article = require("../schemas/article.js");
 let mongoose = require('mongoose');
 let express = require('express');
+import mongo from '../datalayer/mongo.js'
 const articleRouter = express.Router();
+
+
 
 articleRouter.route('/')
 .get((req, res) => {
-  let limit = Number(req.query.limit);
-  let skip = Number(req.query.skip);
-  let Category = req.query.Category;
-  let id = req.params._id;
-  let print;
-  if(Category){
-    print = {'Category': Category}
-  }else {
-    print = Article.find();
-  }
-  Article.find().skip(skip).limit(limit).sort(id).where(print)
-  .then(articles => {
-    res.status(200).json(articles);
-  })
-  .catch(err => console.log('Errormessage: ', err));
+  mongo.getArticles(req, res);
 })
 .post((req, res) => {
-  let article = new Article(req.body); // edited line
-  article.save()
-  res.status(201).send(article)
+  mongo.postArticle(req, res);
 })
 
 articleRouter.route('/:articleId')

@@ -4,7 +4,6 @@ let mongoose = require("mongoose");
 let Schema = mongoose.Schema;
 
 let articleSchema = new Schema({
-  _id: mongoose.Schema.Types.ObjectId,
   id: Number,
   product_name: String,
   price: String,
