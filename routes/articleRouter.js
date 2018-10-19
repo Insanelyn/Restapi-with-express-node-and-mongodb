@@ -1,30 +1,71 @@
 "use strict";
 // let json = require("../articles");
+let mongoose = require('mongoose');
 let express = require('express');
 import mongo from '../datalayer/mongo.js'
 const articleRouter = express.Router();
 
 articleRouter.route('/')
-.get((req, res) => {
-  mongo.getArticles(req, res);
+.get((req, res, next) => {
+  let skip = Number(req.query.skip);
+  let limit = Number(req.query.limit);
+  let Category = req.query.category;
+  let price = req.query.price;
+  mongo.getArticles(skip, limit, price, Category)
+    .then(articles => {
+      console.log('then')
+      res.status(200).json(articles)
+  })
+  .catch(() => {
+    next()
+  })
 })
 .post((req, res) => {
-  mongo.postArticle(req, res);
-})
-
+  let body;
+  if(!req.body.product_name || '' && !req.body.price || '' && !req.body.Category || '') {
+      res.status(403).send('Some field is empty')
+  } else {
+    body = {
+      product_name: req.body.product_name,
+      price: req.body.price,
+      Category: req.body.Category.toLowerCase()
+    }
+  }
+  mongo.postArticle(body)
+   .then(article => {
+     res.status(201).json({
+       message: 'Article Created',
+       article
+     })
+   })
+   .catch(() => {
+     next()
+   })
+});
 articleRouter.route('/:articleId')
-.get((req, res) => {
-  mongo.getArticleById(req, res);
-})
-.delete((req,res)=>{
-  mongo.deleteArticle(req, res);
-})
-.patch((req,res)=>{
-  mongo.patchArticle(req, res);
-})
-.put((req, res) => {
-  mongo.putArticle(req, res);
-})
+.get((req, res, next) => {
+  const articleId = req.params.articleId;
+    mongo.getArticleById(articleId)
+      .then(article => {
+        if(article) {
+            res.status(200).json(article)
+        } else {
+            next()
+        }
+      })
+      .catch(() => {
+        next()
+      })
+  })
+// .delete((req,res)=>{
+//   mongo.deleteArticle(req, res);
+// })
+// .patch((req,res)=>{
+//   mongo.patchArticle(req, res);
+// })
+// .put((req, res) => {
+//   mongo.putArticle(req, res);
+// })
 
 export default articleRouter;
 
