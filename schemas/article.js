@@ -6,7 +6,12 @@ let articleSchema = new Schema({
   id: Number,
   product_name: String,
   price: String,
-  Category: String
+  color: String,
+  category: String,
+  short_description: String,
+  long_description: String,
+  image: String
+
 });
 
 module.exports = mongoose.model('article', articleSchema)
